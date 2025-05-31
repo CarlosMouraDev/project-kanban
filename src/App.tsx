@@ -1,9 +1,18 @@
-import { Box, Heading } from "@radix-ui/themes"
+import { Box, Flex, Heading } from "@radix-ui/themes"
+import { CreateTaskForm } from "./components/CreateTaskForm"
 
 function App() {
   return (
-    <Box>
-      <Heading>inicio</Heading>
+    <Box maxWidth="80rem" mx="auto">
+      <Box>
+        <Flex align="center" gap="4" height="100%">
+          <Heading as="h1" size="8" weight="light">React Kanban</Heading>
+          <CreateTaskForm/>
+        </Flex>
+      </Box>
+      <Box>
+        <Heading as="h2">Quadro de tarefas</Heading>
+      </Box>
     </Box>
   )
 }
