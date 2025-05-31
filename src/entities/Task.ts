@@ -7,4 +7,5 @@ export interface Task {
     title: string
     description: string
     status: TaskStatus
+    priority: TaskPriority
 }
