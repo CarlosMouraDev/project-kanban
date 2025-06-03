@@ -32,7 +32,8 @@ export const TaskContextProvider: React.FC<TaskContextProviderProps> = ({ childr
   }
 
   const deleteTask = async (id: number) => {
-    
+    await tasksService.delete(id)
+    setTasks((currentState) => currentState.filter((task) => task.id !== id))
   }
 
   return (
