@@ -2,6 +2,7 @@ import { PlusIcon } from "@radix-ui/react-icons"
 import { Badge, Box, Button, Dialog, Flex, RadioGroup, Text, TextArea, TextField } from "@radix-ui/themes"
 import type { FormEventHandler } from "react"
 import { z } from "zod"
+import { useTasks } from "../hooks/useTasks"
 
 const CreateTaskSchema = z.object({
   title: z.string(),
@@ -11,6 +12,7 @@ const CreateTaskSchema = z.object({
 })
 
 export const CreateTaskForm: React.FC = () => {
+  const { createTask } = useTasks()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (ev) => {
     ev.preventDefault()
@@ -20,20 +22,19 @@ export const CreateTaskForm: React.FC = () => {
     const title = formData.get("title")
     const description = formData.get("description")
     const status = formData.get("status")
-    const priotity = formData.get("priotity")
+    const priority = formData.get("priority")
 
     ev.currentTarget.reset()
 
-    const taskData = CreateTaskSchema.parse({ title, description, status, priotity })
+    const taskData = CreateTaskSchema.parse({ title, description, status, priority })
+    await createTask(taskData)
   }
 
   return (
     <Dialog.Root>
       <Dialog.Trigger>
         <Button>
-          <Button>
-            <PlusIcon/> Nova tarefa
-          </Button>
+          <PlusIcon/> Nova tarefa
         </Button>
       </Dialog.Trigger>
       <Dialog.Content maxWidth="32rem">
@@ -64,7 +65,7 @@ export const CreateTaskForm: React.FC = () => {
               <Flex gap="8">
                 <Box>
                   <Text as="div" mb="2">Situação</Text>
-                  <RadioGroup.Root>
+                  <RadioGroup.Root id="status" name="status">
                     <RadioGroup.Item value="todo">
                       <Badge color="gray">Para Fazer</Badge>
                     </RadioGroup.Item>
@@ -82,7 +83,7 @@ export const CreateTaskForm: React.FC = () => {
 
                 <Box>
                   <Text as="div" mb="2">Prioridade</Text>
-                  <RadioGroup.Root>
+                  <RadioGroup.Root name="priority" id="priority">
                     <RadioGroup.Item value="low">
                       <Badge color="sky">Baixa</Badge>
                     </RadioGroup.Item>
@@ -91,7 +92,7 @@ export const CreateTaskForm: React.FC = () => {
                       <Badge color="amber">Média</Badge>
                     </RadioGroup.Item>
 
-                    <RadioGroup.Item value="heigh">
+                    <RadioGroup.Item value="high">
                       <Badge color="tomato">Alta</Badge>
                     </RadioGroup.Item>
                   </RadioGroup.Root>                

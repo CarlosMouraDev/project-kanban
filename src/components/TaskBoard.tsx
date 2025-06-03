@@ -1,11 +1,10 @@
 import { Badge, Flex, Grid, ScrollArea } from "@radix-ui/themes"
 import type { Task } from "../entities/Task"
 import { TaskCard } from "./TaskCard"
-import { useContext } from "react"
-import { TaskContext } from "../contexts/TaskContext"
+import { useTasks } from "../hooks/useTasks"
 
 export const TaskBoard: React.FC = () => {
-  const { tasks } = useContext(TaskContext)
+  const { tasks } = useTasks()
   
   const tasksTodo: Task[] = tasks?.filter(task => task.status === "todo") ?? []
 

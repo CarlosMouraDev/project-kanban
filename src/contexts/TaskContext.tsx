@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { Task } from "../entities/Task";
-import { taskService } from "../services/api";
+import { tasksService } from "../services/api";
 
 export interface TaskContextData {
   tasks: Task[],
-  createTask: (attributes: Omit<Task, "id">) => Promise<Task>
+  createTask: (attributes: Omit<Task, "id">) => Promise<void>
   updateTask: (id: number, attributes: Partial<Omit<Task, "id">>) => Promise<void>
   deleteTask: (id: number) => Promise<void>
 }
@@ -19,14 +19,12 @@ export const TaskContextProvider: React.FC<TaskContextProviderProps> = ({ childr
   const [tasks, setTasks] = useState<Task[]>([])
 
   useEffect(() => {
-    taskService.fetchTasks().then((data) => {
-      setTasks(data)
-    })
-  })
+    tasksService.fetchTasks().then((data) =>  setTasks(data))
+  }, [])
 
-  const createTask = async () => {
-    const newTask: Task = { id: 100, title: "teste", description: "Teste", status: "todo" , priority: "low"}
-    return newTask
+  const createTask = async (attributes: Omit<Task, "id">) => {
+    const newTask = await tasksService.createTask(attributes)
+    setTasks((currentState) =>  [...currentState, newTask])
   }
 
   const updateTask = async (id: number, attributes: Partial<Omit<Task, "id">>) => {
