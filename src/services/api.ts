@@ -20,9 +20,9 @@ export const tasksService = {
     const newTask: Task = await response.json()
     return newTask
   },
-  async updateTask(id: number, attributes: Partial<Omit<Task, "id">>): Promise<Task> {
+  async updateTask(id: string, attributes: Partial<Omit<Task, "id">>): Promise<Task> {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
@@ -31,7 +31,7 @@ export const tasksService = {
     const updatedTask: Task = await response.json()
     return updatedTask
   },
-  async delete(id: number) {
+  async delete(id: string) {
     await fetch(
       `${import.meta.env.VITE_API_URL}/tasks/${id}`,
       {

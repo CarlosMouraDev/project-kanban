@@ -7,7 +7,7 @@ interface TaskCardProps {
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
-  const { deleteTask } = useTasks()
+  const { deleteTask, updateTask } = useTasks()
 
   const getActionText = (status: TaskStatus) => {
     const actionTexts = {
@@ -38,10 +38,18 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     return priorityColors[priority]
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     const confirmation = confirm("Tem certeza que deseja excluir essa tarefa?")
     if (confirmation) {
       deleteTask(id)
+    }
+  }
+
+  const handleUpdate = () => {
+    if (task.status === "todo") {
+      updateTask(task.id, { status: "doing" })
+    } else if (task.status === "doing") {
+      updateTask(task.id, { status: "done" })
     }
   }
 
@@ -56,8 +64,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 
       <Flex gap="2">
         {task.status !== "done" && (
-          <Button color={getActionColor(task.status)}>
-            {getActionText(task.status)}
+          <Button color={getActionColor(task.status)} onClick={handleUpdate}>
+            {getActionText(task.status)} 
           </Button>
         )}
         <Button onClick={() => handleDelete(task.id)} color="red">Excluir</Button>
