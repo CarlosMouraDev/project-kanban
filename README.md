@@ -12,3 +12,15 @@ Este projeto é uma simulação de um **quadro Kanban**, construído com **React
 - 🔁 JSON Server (API simulada)
 - 🧹 ESLint + TypeScript
 - 🪝 React Context API + custom hooks (`useTasks`)
+
+## Instale as dependências
+- npm install
+
+## Inicie o JSON Server (API fake)
+- npm run json-server
+
+# A API estará disponível em: http://localhost:3000
+## Inicie o Vite (aplicação React)
+- npm run dev
+
+# Acesse: http://localhost:5173
